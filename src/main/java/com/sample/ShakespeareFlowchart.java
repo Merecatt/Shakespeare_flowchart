@@ -1,15 +1,23 @@
 package com.sample;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+
+
 
 /**
  * This is a sample class to launch a rule.
@@ -90,10 +98,57 @@ public class ShakespeareFlowchart {
 		
 		public ShakespeareUI(KieContainer kc) {
 			super(new BorderLayout());
-			buttonYes = new JButton("Yes");
-			buttonNo = new JButton("No");
 			output = new JTextArea();
 			
+			JSplitPane splitPane = new JSplitPane( JSplitPane.VERTICAL_SPLIT );
+            add( splitPane,
+                 BorderLayout.CENTER );
+            JPanel topHalf = new JPanel();
+            topHalf.setLayout( new BoxLayout( topHalf,
+                                              BoxLayout.X_AXIS ) );
+            topHalf.setBorder( BorderFactory.createEmptyBorder( 5,
+                                                                5,
+                                                                0,
+                                                                5 ) );
+            topHalf.setMinimumSize( new Dimension( 400,
+                                                   50 ) );
+            topHalf.setPreferredSize( new Dimension( 450,
+                                                     250 ) );
+            splitPane.add( topHalf );
+            
+            JPanel bottomHalf = new JPanel( new BorderLayout() );
+            bottomHalf.setMinimumSize( new Dimension( 400,
+                                                      50 ) );
+            bottomHalf.setPreferredSize( new Dimension( 450,
+                                                        300 ) );
+            splitPane.add( bottomHalf );
+
+            output.setMinimumSize(new Dimension(200, 100));
+            output.setEditable(false);
+            output.setText("Watch the sky!");
+            topHalf.add( output );
+            
+            JPanel checkoutPane = new JPanel();
+            buttonYes= new JButton( "Yes" );
+            buttonYes.setVerticalTextPosition( AbstractButton.CENTER );
+            buttonYes.setHorizontalTextPosition( AbstractButton.LEADING );
+            //attach handler to assert items into working memory
+           // button.addMouseListener( new CheckoutButtonHandler() );
+            buttonYes.setActionCommand( "checkout" );
+            checkoutPane.add( buttonYes );
+            bottomHalf.add( checkoutPane,
+                            BorderLayout.NORTH );
+
+            buttonNo = new JButton( "No" );
+            buttonNo.setVerticalTextPosition( AbstractButton.CENTER );
+            buttonNo.setHorizontalTextPosition( AbstractButton.TRAILING );
+            //attach handler to assert items into working memory
+         //   button.addMouseListener( new ResetButtonHandler() );
+            buttonNo.setActionCommand( "reset" );
+            checkoutPane.add( buttonNo );
+            bottomHalf.add( checkoutPane,
+                            BorderLayout.NORTH );
+
 			
 		}
 		
