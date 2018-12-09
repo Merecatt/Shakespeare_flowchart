@@ -3,6 +3,8 @@ package com.sample;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,6 +18,9 @@ import javax.swing.JButton;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+
+
+
 
 
 
@@ -51,7 +56,7 @@ public class ShakespeareFlowchart {
     
     public void init(KieContainer kc) {
     	
-    	ShakespeareUI ui = new ShakespeareUI(kc);
+    	ShakespeareUI ui = new ShakespeareUI(new CheckoutCallback (kc));
     	ui.createAndShowGUI(true);
     }
 
@@ -93,10 +98,13 @@ public class ShakespeareFlowchart {
 		private JTextArea output;
 		
 		private JButton buttonYes;
+		
 		private JButton buttonNo;
 		
+		private CheckoutCallback callback;
 		
-		public ShakespeareUI(KieContainer kc) {
+		
+		public ShakespeareUI(CheckoutCallback callback) {
 			super(new BorderLayout());
 			output = new JTextArea();
 			
@@ -133,7 +141,7 @@ public class ShakespeareFlowchart {
             buttonYes.setVerticalTextPosition( AbstractButton.CENTER );
             buttonYes.setHorizontalTextPosition( AbstractButton.LEADING );
             //attach handler to assert items into working memory
-           // button.addMouseListener( new CheckoutButtonHandler() );
+            buttonYes.addMouseListener( new YesButtonHandler() );
             buttonYes.setActionCommand( "checkout" );
             checkoutPane.add( buttonYes );
             bottomHalf.add( checkoutPane,
@@ -165,7 +173,28 @@ public class ShakespeareFlowchart {
             frame.setLocationRelativeTo(null); // Center in screen
             frame.setVisible( true );
         }
+        
+        private class YesButtonHandler extends MouseAdapter {
+            public void mouseReleased(MouseEvent e) {
+                JButton button = (JButton) e.getComponent();
+                System.out.println("I do!");
+                
+            }
+        }
     	
+    }
+    
+    public static class CheckoutCallback {
+        KieContainer kcontainer;
+        JTextArea     output;
+
+        public CheckoutCallback(KieContainer kcontainer) {
+            this.kcontainer = kcontainer;
+        }
+
+        public void setOutput(JTextArea output) {
+            this.output = output;
+        }
     }
     
 }
