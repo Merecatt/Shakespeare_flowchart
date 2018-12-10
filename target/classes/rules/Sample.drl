@@ -1,5 +1,5 @@
 package com.sample
- 
+/* 
 import com.sample.ShakespeareFlowchart.Message;
  
 rule "Hello World"
@@ -18,3 +18,4 @@ rule "GoodBye"
     then
         System.out.println( myMessage );
 end
+*/

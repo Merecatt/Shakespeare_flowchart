@@ -28,6 +28,8 @@ import org.kie.api.runtime.KieSession;
  * This is a sample class to launch a rule.
  */
 public class ShakespeareFlowchart {
+	
+	public ShakespeareUI ui;
 
     public static final void main(String[] args) {
         try {
@@ -36,15 +38,12 @@ public class ShakespeareFlowchart {
     	    KieContainer kContainer = ks.getKieClasspathContainer();
         	KieSession kSession = kContainer.newKieSession("ksession-rules");
 
-            // go !
-        	/*
-            Message message = new Message();
-            message.setMessage("Hello World");
-            message.setStatus(Message.HELLO);
-            kSession.insert(message);
-            kSession.fireAllRules();*/
+            
         	
-        	new ShakespeareFlowchart().init(kContainer);
+            //kSession.fireAllRules();
+        	ShakespeareFlowchart sf = new ShakespeareFlowchart(); 
+        	sf.init(kContainer);
+        	State st = new State(sf.ui.output);
         } catch (Throwable t) {
             t.printStackTrace();
         }
@@ -56,36 +55,11 @@ public class ShakespeareFlowchart {
     
     public void init(KieContainer kc) {
     	
-    	ShakespeareUI ui = new ShakespeareUI(new CheckoutCallback (kc));
+    	ui = new ShakespeareUI(new CheckoutCallback (kc));
     	ui.createAndShowGUI(true);
     }
 
-    public static class Message {
 
-        public static final int HELLO = 0;
-        public static final int GOODBYE = 1;
-
-        private String message;
-
-        private int status;
-
-        public String getMessage() {
-            return this.message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public int getStatus() {
-            return this.status;
-        }
-
-        public void setStatus(int status) {
-            this.status = status;
-        }
-
-    }
 
     public class ShakespeareUI extends JPanel {
 
@@ -95,7 +69,7 @@ public class ShakespeareFlowchart {
 		 */
 		private static final long serialVersionUID = 1L;
     	
-		private JTextArea output;
+		public JTextArea output;
 		
 		private JButton buttonYes;
 		
@@ -133,7 +107,7 @@ public class ShakespeareFlowchart {
 
             output.setMinimumSize(new Dimension(200, 100));
             output.setEditable(false);
-            output.setText("Watch the sky!");
+            //output.setText("Watch the sky!");
             topHalf.add( output );
             
             JPanel checkoutPane = new JPanel();
@@ -181,6 +155,12 @@ public class ShakespeareFlowchart {
                 
             }
         }
+        private class NoButtonHandler extends MouseAdapter {
+        	public void mouseReleased(MouseEvent e) {
+        		JButton button = (JButton) e.getComponent();
+        		
+        	}
+        }
     	
     }
     
@@ -195,6 +175,32 @@ public class ShakespeareFlowchart {
         public void setOutput(JTextArea output) {
             this.output = output;
         }
+    }
+    
+    public static class State {
+    	private String currentText;
+    	
+    	private int token;
+    	
+    	private JTextArea output;
+    	
+
+		public State(JTextArea out) {
+    		token = 0;
+    		currentText = "What do you want to do?";
+    		output = out;
+    		output.setText(currentText);
+    		
+    	}
+    	
+    	public void setQuestion(String s) {
+    		output.setText(s);
+    	}
+    	
+    	public void setToken(int value) {
+    		token = value;
+    	}
+    	
     }
     
 }
