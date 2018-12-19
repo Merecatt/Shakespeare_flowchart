@@ -21,7 +21,8 @@ rule "rulename"
 		Question(qstext == "previous_question_text", anstext == "previous_answer_text")
 	then
 		Object[] options = {"next_answer1", "next_answer2", ...};
-		thatIsTheQuestion(kcontext.getKieRuntime(), "Next_question_text", options);
+		String text = "next_question";
+		insert(makeQuestion, options);
 end
 -----------------------------------------------------------------------------
 -----------------------------------------------------------------------------
@@ -42,9 +43,8 @@ rule "Start"
 		
 		Object[] options = {"Take a nap", "Laugh", "Cry", "Watch guys run around with swords", "All of the above"};
 		
-		thatIsTheQuestion(kcontext.getKieRuntime(), "What do you want to do?", options);
+		insert(makeQuestion("What do you want to do?", options));
 		
-	
 end
 	
 rule "Take a nap"
@@ -60,7 +60,7 @@ rule "Laugh"
 		Question(qstext == "What do you want to do?", anstext == "Laugh")
 	then
 		Object[] options = {"Disturbing?", "Hilarious?"};
-		thatIsTheQuestion(kcontext.getKieRuntime(), "Do you find murder, dismemberment, and cannibalism...", options);
+		insert(makeQuestion("Do you find murder, dismemberment, and cannibalism...", options));
 end
 
 rule "LaughHilarious"
@@ -76,19 +76,32 @@ rule "LaughDisturbing"
 		Question(qstext == "Do you find murder, dismemberment, and cannibalism...", anstext == "Disturbing?")
 	then
 		Object[] options = {"Yea!", "Nay."};
-		thatIsTheQuestion();
+		insert(makeQuestion("Cross-dressing:\nYea or Nay?", options));
 end
 
+rule "LaughDisturbingYea"
+	when
+		Question(qstext == "Cross-dressing:\nYea or Nay?", anstext == "Yea!")
+	then
+		Object[] options = {"Twins are awesome.", "No! No twins!"};
+		String text = "Twins?";
+		insert(makeQuestion(text , options));
+end
 
+rule "LaughDisturbingNay"
+	when
+		Question(qstext == "Cross-dressing:\nYea or Nay?", anstext == "Nay.")
+	then
+		Object[] options = {"How contrived.", "Sounds like fun!"};
+		String text = "How about twins?";
+		
+		insert(makeQuestion(text, options));
+end
 
-
-
-
-
-function void thatIsTheQuestion(KieRuntime krt, String text, Object[] options ) 
+function int showDialog(String text, Object[] options)
 {
-                    
-    int n = JOptionPane.showOptionDialog(null,
+	
+	return JOptionPane.showOptionDialog(null,
                                          text,
                                          "",
                                          JOptionPane.YES_NO_OPTION,
@@ -96,15 +109,20 @@ function void thatIsTheQuestion(KieRuntime krt, String text, Object[] options )
                                          null,
                                          options,
                                          options[0]);
-  	if(n>=0)
-    {
-   		System.out.println(text+": " + options[n]);
-  	 	krt.insert(new Question(text,(String)options[n]));
-   	}
 }
 
-function void makeAnswer(String text) {  
-                            
-       JOptionPane.showMessageDialog(null,text);
-       System.out.println(text);
+function Question makeQuestion(String txt, Object[] opt)
+{
+	int i = showDialog(txt, opt);
+	String chosenOne = (String)opt[i];
+	
+	return new Question(txt, chosenOne);
+
+}
+
+function void makeAnswer(String text) 
+{  
+                        
+   JOptionPane.showMessageDialog(null,text);
+   System.out.println(text);
 }
