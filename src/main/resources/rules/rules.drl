@@ -22,7 +22,7 @@ rule "rulename"
 	then
 		Object[] options = {"next_answer1", "next_answer2", ...};
 		String text = "next_question";
-		insert(makeQuestion, options);
+		insert(makeQuestion(text, options));
 end
 -----------------------------------------------------------------------------
 -----------------------------------------------------------------------------
