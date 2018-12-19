@@ -21,7 +21,8 @@ rule "rulename"
 		Question(qstext == "previous_question_text", anstext == "previous_answer_text")
 	then
 		Object[] options = {"next_answer1", "next_answer2", ...};
-		thatIsTheQuestion(kcontext.getKieRuntime(), "Next_question_text", options);
+		String text = "next_question";
+		insert(makeQuestion(text, options));
 end
 -----------------------------------------------------------------------------
 -----------------------------------------------------------------------------
@@ -93,9 +94,189 @@ rule "LaughDisturbingNay"
 	then
 		Object[] options = {"How contrived.", "Sounds like fun!"};
 		String text = "How about twins?";
-		
 		insert(makeQuestion(text, options));
 end
+
+rule "LaughDisturbingNayFun"
+	when
+		Question(qstext == "How about twins?", anstext == "Sounds like fun!")
+	then
+		makeAnswer("The Comedy of Errors");
+		//end		
+end
+
+rule "LaughDisturbingNayContrived"
+	when
+		Question(qstext == "How about twins?", anstext == "How contrived.")
+	then
+		String text = "Picky picky. How about magic?";
+		Object[] options = {"There's no such thing.", "Oooo, I love magic!"};
+		insert(makeQuestion(text, options));
+end
+
+rule "LaughDisturbingNayContrivedNo"
+	when
+		Question(qstext == "Picky picky. How about magic?", anstext == "There's no such thing.")
+	then
+		String text = "Wow, you're a tough crowd. How do you like your lovers?";
+		Object[] options = {"Overeducated", "Quarrelsome", "Reluctant", "Married"};
+		insert(makeQuestion(text, options));
+end
+
+
+rule "LaughDisturbingNayContrivedNoOvereducated"
+	when
+		Question(qstext == "Wow, you're a tough crowd. How do you like your lovers?", anstext == "Overeducated")
+	then
+		makeAnswer("Love's Labour's Lost");
+		//end
+end
+
+rule "LaughDisturbingNayContrivedNoQuarrelsome"
+	when
+		Question(qstext == "Wow, you're a tough crowd. How do you like your lovers?", anstext == "Quarrelsome")
+	then
+		String text = "Violently quarrelsome?";
+		Object[] options = {"No, just argumentative.", "Bring it on!"};
+		insert(makeQuestion(text, options));
+end
+
+rule "LaughDisturbingNayContrivedNoQuarrelsomeNo"
+	when 
+		Question(qstext == "Violently quarrelsome?", anstext == "No, just argumentative.")
+	then
+		makeAnswer("Much Ado About Nothing");
+		//end
+end
+
+rule "LaughDisturbingNayContrivedNoQuarrelsomeBring"
+	when
+		Question(qstext == "Violently quarrelsome?", anstext == "Bring it on!")
+	then
+		makeAnswer("The Taming of the Shrew");
+		//end
+end
+
+rule "LaughDisturbingNayContrivedNoReluctant"
+	when
+		Question(qstext == "Wow, you're a tough crowd. How do you like your lovers?", anstext == "Reluctant")
+	then
+		String text = "Is there a nun involved?";
+		Object[] options = {"...maybe?", "What? No! That's weird!"};
+		insert(makeQuestion(text, options));
+end
+
+rule "LaughDisturbingNayContrivedNoReluctantMaybe"
+	when
+		Question(qstext == "Is there a nun involved?", anstext == "...maybe?")
+	then
+		makeAnswer("Measure for Measure");
+		//end
+end
+
+rule "LaughDisturbingNayContrivedNoReluctantWeird"
+	when
+		Question(qstext == "Is there a nun involved?", anstext == "What? No! That's weird!")
+	then
+		makeAnswer("All's Well That Ends Well");
+		//end	
+end
+
+rule "LaughDisturbingNayContrivedNoMarried"
+	when
+		Question(qstext == "Wow, you're a tough crowd. How do you like your lovers?", anstext == "Married")
+	then
+		makeAnswer("The Merry Wives of Windsor");
+		//end
+end
+
+
+
+
+
+
+rule "LaughDisturbingNayLove"
+	when
+		Question(qstext == "Picky picky. How about magic?", anstext == "Oooo, I love magic!")
+	then
+		String text = "What kind of magic do you like?";
+		Object[] options = {"Illusion!", "Fairies!", "Miracles!"};
+		insert(makeQuestion(text, options));
+end
+
+rule "LaughDisturbingNayLoveIllusion"
+	when 
+		Question(qstext == "What kind of magic do you like?", anstext == "Illusion!")
+	then
+		makeAnswer("The Tempest");
+end
+
+rule "LaughDisturbingNayLoveFairies"
+	when 
+		Question(qstext == "What kind of magic do you like?", anstext == "Fairies!")
+	then
+		makeAnswer("A Midsummer Night's Dream");
+end
+
+rule "LaughDisturbingNayLoveMiracles"
+	when 
+		Question(qstext == "What kind of magic do you like?", anstext == "Miracles!")
+	then
+		makeAnswer("The Winter's Tale");
+end
+
+rule "LaughDisturbingYeaAwesome"
+	when
+		Question(qstext == "Twins?", anstext == "Twins are awesome.")
+	then
+		makeAnswer("Twelfth night");
+		//end
+end
+
+rule "LaughDisturbingYeaNo"
+	when
+		Question(qstext == "Twins?", anstext == "No! No twins!")
+	then
+		Object[] options = {"Oooh, yes, I love forests.", "Why not in a city, for a change?"};
+		String text = "Can it be set in a forest?";
+		insert(makeQuestion(text, options));
+end
+
+rule "LaughDisturbingYeaNoCity"
+	when
+		Question(qstext == "Can it be set in a forest?", anstext == "Why not in a city, for a change?")
+	then
+		makeAnswer("The Merchant of Venice");
+end
+
+rule "LaughDisturbingYeaNoForest"
+	when
+		Question(qstext == "Can it be set in a forest?", anstext == "Oooh, yes, I love forests.")
+	then
+		Object[] options = {"Shepherds.", "Bandits."};
+		String text = "Who is in the forest?";
+		insert(makeQuestion(text, options));
+end
+
+rule "LaughDisturbingYeaNoForestShepherds"
+	when
+		Question(qstext == "Who is in the forest?", anstext == "Shepherds.")
+	then
+		makeAnswer("As You Like It");
+		//end
+end
+
+
+rule "LaughDisturbingYeaNoForestBandits"
+	when
+		Question(qstext == "Who is in the forest?", anstext == "Bandits.")
+	then
+		makeAnswer("The Two Gentlemen of Verona");
+		//end
+end
+
+
+
 
 function int showDialog(String text, Object[] options)
 {
