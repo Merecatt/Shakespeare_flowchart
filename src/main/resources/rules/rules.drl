@@ -75,8 +75,8 @@ rule "LaughDisturbing"
 	when
 		Question(qstext == "Do you find murder, dismemberment, and cannibalism...", anstext == "Disturbing?")
 	then
-		Object[] options = {};
-		makeQuestion
+		Object[] options = {"Yea!", "Nay."};
+		thatIsTheQuestion();
 end
 
 
