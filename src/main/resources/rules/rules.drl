@@ -98,6 +98,124 @@ rule "LaughDisturbingNay"
 		insert(makeQuestion(text, options));
 end
 
+rule "Watch"
+	when
+		Question(qstext == "What do you want to do?", anstext == "Watch guys run around with swords")
+	then
+		Object[] options = {"It really is!", "Um, I dunno...", "Eh, I prefer the classics."};
+		String text = "Isn't English history awesome???";
+		insert(makeQuestion(text, options));
+end
+
+rule "WatchEh"
+	when
+		Question(qstext == "Isn't English history awesome???", anstext == "Eh, I prefer the classics.")
+	then
+		makeAnswer("Troilus and Cressida");
+		// end of path
+end
+
+rule "WatchUm"
+	when
+		Question(qstext == "Isn't English history awesome???", anstext == "Um, I dunno...")
+	then
+		Object[] options = {"Okay..."};
+		String text = "No, it really is. Trust me.";
+		insert(makeQuestion(text, options));
+end
+
+rule "WatchUmItis"
+	when
+		Question(qstext == "No, it really is. Trust me.", anstext == "Okay...")
+	then
+		Object[] options = {"Wow! Is it ever!", "Boooring."};
+		String text = "Is excommunication exciting?";
+		insert(makeQuestion(text, options));
+end
+
+rule "WatchItis"
+	when
+		Question(qstext == "Isn't English history awesome???", anstext == "It really is!")
+	then
+		Object[] options = {"Wow! Is it ever!", "Boooring."};
+		String text = "Is excommunication exciting?";
+		insert(makeQuestion(text, options));
+end
+
+rule "WatchItisWow"
+	when
+		Question(qstext == "Is excommunication exciting?", anstext == "Wow! Is it ever!")
+	then
+		makeAnswer("King John");
+		// end of path
+end
+
+rule "WatchItisBoring"
+	when
+		Question(qstext == "Is excommunication exciting?", anstext == "Boooring.")
+	then
+		Object[] options = {"Just a few hours.", "I'm here all week!"};
+		String text = "How much time do you have?";
+		insert(makeQuestion(text, options));
+end
+
+rule "WatchItisBoringAllweek"
+	when
+		Question(qstext == "How much time do you have?", anstext == "I'm here all week!")
+	then
+		Object[] options = {"Coming of age journeys.", "Just lots and lots of battles."};
+		String text = "Which do you prefer?";
+		insert(makeQuestion(text, options));
+end
+
+rule "WatchItisBoringAllweekJourneys"
+	when
+		Question(qstext == "Which do you prefer?", anstext == "Coming of age journeys.")
+	then
+		makeAnswer("Henry IV, parts 1 & 2");
+		// end of path
+end
+
+rule "WatchItisBoringAllweekBattles"
+	when
+		Question(qstext == "Which do you prefer?", anstext == "Just lots and lots of battles.")
+	then
+		makeAnswer("Henry VI, parts 1, 2, &3");
+		// end of path
+end
+
+rule "WatchItisBoringJust"
+	when
+		Question(qstext == "How much time do you have?", anstext == "Just a few hours.")
+	then
+		Object[] options = {"Good guys.", "Bad boys."};
+		String text = "Do you like good guys or bad boys?";
+		insert(makeQuestion(text, options));
+end
+
+rule "WatchItisBoringJustGood"
+	when
+		Question(qstext == "Do you like good guys or bad boys?", anstext == "Good guys.")
+	then
+		makeAnswer("Henry V");
+		// end of path
+end
+
+rule "WatchItisBoringJustBad"
+	when
+		Question(qstext == "Do you like good guys or bad boys?", anstext == "Bad boys.")
+	then
+		makeAnswer("Richard III");
+		// end of path
+end
+
+rule "All"
+	when
+		Question(qstext == "What do you want to do?", anstext == "All of the above")
+	then
+		makeAnswer("Cymbeline");
+end
+
 function int showDialog(String text, Object[] options)
 {
 	
