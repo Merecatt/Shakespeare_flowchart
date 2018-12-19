@@ -98,6 +98,148 @@ rule "LaughDisturbingNay"
 		insert(makeQuestion(text, options));
 end
 
+rule "Cry"
+	when
+		Question(qstext == "What do you want to do?", anstext == "Cry")
+	then
+		Object[] options = {"It's the best!", "It's pointless."};
+		String text = "What's your opinion on revenge?";
+		insert(makeQuestion(text, options));
+end
+
+rule "CryPointless"
+	when
+		Question(qstext == "What's your opinion on revenge?", anstext == "It's pointless.")
+	then
+		Object[] options = {"Love.", "Family.", "Power."};
+		String text = "What is the most important to you?";
+		insert(makeQuestion(text, options));
+end
+
+rule "CryPointlessFamily"
+	when
+		Question(qstext == "What is the most important to you?", anstext == "Family.")
+	then
+		Object[] options = {"Mum.", "Dad."};
+		String text = "Pick a parent.";
+		insert(makeQuestion(text, options));
+end
+
+rule "CryPointlessFamilyMum"
+	when
+		Question(qstext == "Pick a parent.", anstext == "Mum.")
+	then
+		makeAnswer("Coriolanus");
+		// end of path
+end
+
+rule "CryPointlessFamilyDad"
+	when
+		Question(qstext == "Pick a parent.", anstext == "Dad.")
+	then
+		makeAnswer("King Lear");
+		// end of path
+end
+
+rule "CryPointlessPower"
+	when
+		Question(qstext == "What is the most important to you?", anstext == "Power.")
+	then
+		Object[] options = {"Friends.", "Significant other.", "Everyone hates me."};
+		String text = "Who do you work best with?";
+		insert(makeQuestion(text, options));
+end
+
+rule "CryPointlessPowerFriends"
+	when
+		Question(qstext == "Who do you work best with?", anstext == "Friends.")
+	then
+		makeAnswer("Julius Caesar");
+		// end of path
+end
+
+rule "CryPointlessPowerOther"
+	when
+		Question(qstext == "Who do you work best with?", anstext == "Significant other.")
+	then
+		makeAnswer("Macbeth");
+		// end of path
+end
+
+rule "CryPointlessPowerHate"
+	when
+		Question(qstext == "Who do you work best with?", anstext == "Everyone hates me.")
+	then
+		makeAnswer("Richard II");
+		// end of path
+end
+
+rule "CryPointlessLove"
+	when
+		Question(qstext == "What is the most important to you?", anstext == "Love.")
+	then
+		Object[] options = {"Stupid immature love", "Stupid mature love", "Jealous obsession"};
+		String text = "Which is the best type of love?";
+		insert(makeQuestion(text, options));
+end
+
+rule "CryPointlessLoveImmature"
+	when
+		Question(qstext == "Which is the best type of love?", anstext == "Stupid immature love")
+	then
+		makeAnswer("Romeo and Juliet");
+		// end of path
+end
+
+rule "CryPointlessLoveMature"
+	when
+		Question(qstext == "Which is the best type of love?", anstext == "Stupid mature love")
+	then
+		makeAnswer("Antony and Cleopatra");
+		// end of path
+end
+
+rule "CryPointlessLoveObsession"
+	when
+		Question(qstext == "Which is the best type of love?", anstext == "Jealous obsession")
+	then
+		makeAnswer("Othello");
+		// end of path
+end
+
+rule "CryBest"
+	when
+		Question(qstext == "What's your opinion on revenge?", anstext == "It's the best!")
+	then
+		Object[] options = {"High! Bring on the bloodbath!", "Moderate, with a side of angst.", "Very low. I'm squeamish."};
+		String text = "How do you like your death tolls?";
+		insert(makeQuestion(text, options));
+end
+
+rule "CryBestHigh"
+	when
+		Question(qstext == "How do you like your death tolls?", anstext == "High! Bring on the bloodbath!")
+	then
+		makeAnswer("Titus Andronicus");
+		// end of path
+end
+
+rule "CryBestModerate"
+	when
+		Question(qstext == "How do you like your death tolls?", anstext == "Moderate, with a side of angst.")
+	then
+		makeAnswer("Hamlet");
+		// end of path
+end
+
+rule "CryBestLow"
+	when
+		Question(qstext == "How do you like your death tolls?", anstext == "Very low. I'm squeamish.")
+	then
+		makeAnswer("Timon of Athens");
+		// end of path
+end
+
 rule "Watch"
 	when
 		Question(qstext == "What do you want to do?", anstext == "Watch guys run around with swords")
