@@ -1,9 +1,0 @@
-package com.sample
-
-import com.sample.ShakespeareFlowchart.State;
- 
-rule "Init"
-	when
-	then
-		insert(new State());
-end

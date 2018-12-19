@@ -1,0 +1,110 @@
+package com.sample
+
+import com.sample.ShakespeareFlowchart.Answer;
+import com.sample.ShakespeareFlowchart.Question;
+
+import org.kie.api.runtime.KieRuntime;
+import java.util.ArrayList
+import javax.swing.JOptionPane;
+
+import javax.swing.JFrame;
+        
+global javax.swing.JTextArea textArea;
+
+/*	RULE TEMPLATES
+	author ambulanss
+-----------------------------------------------------------------------------
+This one asks another question based on the previous questiontext and answertext and does NOT finish the program 
+
+rule "rulename"
+	when
+		Question(qstext == "previous_question_text", anstext == "previous_answer_text")
+	then
+		Object[] options = {"next_answer1", "next_answer2", ...};
+		thatIsTheQuestion(kcontext.getKieRuntime(), "Next_question_text", options);
+end
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+This one provides an answer
+rule "rulename"
+	when
+		Question(qstext == "previous_question_text", anstext == "previous_answer_text")
+	then
+		makeAnswer("glorious_title");
+end
+-----------------------------------------------------------------------------
+*/
+rule "Start"
+	when
+	
+	then
+		System.out.println("Let slip the dogs of war!" + kcontext.getKieRuntime());
+		
+		Object[] options = {"Take a nap", "Laugh", "Cry", "Watch guys run around with swords", "All of the above"};
+		
+		thatIsTheQuestion(kcontext.getKieRuntime(), "What do you want to do?", options);
+		
+	
+end
+	
+rule "Take a nap"
+	when
+		Question(qstext == "What do you want to do?", anstext == "Take a nap")	
+	then
+		makeAnswer("Henry VIII");
+		//End of path here
+end
+	
+rule "Laugh"
+	when 
+		Question(qstext == "What do you want to do?", anstext == "Laugh")
+	then
+		Object[] options = {"Disturbing?", "Hilarious?"};
+		thatIsTheQuestion(kcontext.getKieRuntime(), "Do you find murder, dismemberment, and cannibalism...", options);
+end
+
+rule "LaughHilarious"
+	when
+		Question(qstext == "Do you find murder, dismemberment, and cannibalism...", anstext == "Hilarious?")
+	then
+		makeAnswer("Titus Andronicus");
+		//end of path here
+end
+
+rule "LaughDisturbing"
+	when
+		Question(qstext == "Do you find murder, dismemberment, and cannibalism...", anstext == "Disturbing?")
+	then
+		Object[] options = {};
+		makeQuestion
+end
+
+
+
+
+
+
+
+function void thatIsTheQuestion(KieRuntime krt, String text, Object[] options ) 
+{
+                    
+    int n = JOptionPane.showOptionDialog(null,
+                                         text,
+                                         "",
+                                         JOptionPane.YES_NO_OPTION,
+                                         JOptionPane.QUESTION_MESSAGE,
+                                         null,
+                                         options,
+                                         options[0]);
+  	if(n>=0)
+    {
+   		System.out.println(text+": " + options[n]);
+  	 	krt.insert(new Question(text,(String)options[n]));
+   	}
+}
+
+function void makeAnswer(String text) {  
+                            
+       JOptionPane.showMessageDialog(null,text);
+       System.out.println(text);
+}
